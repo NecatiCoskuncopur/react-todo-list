@@ -1,16 +1,23 @@
 import React from 'react'
 import { FaPlusSquare } from 'react-icons/fa'
 
-function Form({setInputText, todos, setTodos, inputText, setStatus}) {
+function Form({ setInputText, todos, setTodos, inputText, setStatus }) {
 
   const inputTextHandler = (e) => {
     setInputText(e.target.value);
   }
 
   const submitTodoHandler = (e) => {
+
+    if (!inputText || /^\s*$/.test(inputText)) {
+      alert(' Please enter a todo')
+      return false
+    }
     e.preventDefault();
-    setTodos([...todos, {text: inputText, completed: false, id: Math.floor(Math.random() * 10000) }]);
+    setTodos([...todos, { text: inputText, completed: false, id: Math.floor(Math.random() * 10000) }]);
     setInputText('')
+
+
   }
 
   const statusHandler = (e) => {
@@ -19,19 +26,21 @@ function Form({setInputText, todos, setTodos, inputText, setStatus}) {
   return (
     <div>
       <form>
-        <input
-          type="text"
-          className='todo-input'
-          onChange={inputTextHandler}
-          value={inputText}
-        />
-        <button
-          type='submit'
-          className='todo-button'
-          onClick={submitTodoHandler}
-        >
-          <FaPlusSquare />
-        </button>
+        <div className='input-wrapper'>
+          <input
+            type="text"
+            className='todo-input'
+            onChange={inputTextHandler}
+            value={inputText}
+          />
+          <button
+            type='submit'
+            className='todo-button'
+            onClick={submitTodoHandler}
+          >
+            <FaPlusSquare />
+          </button>
+        </div>
         <div className="select">
           <select onChange={statusHandler} name="todos" className='filter-todo'>
             <option value="all">All</option>
